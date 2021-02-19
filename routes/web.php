@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('main');
 });
+
+Route::get('/store/inventory', 'InventoryController@index');
