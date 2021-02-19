@@ -1,0 +1,42 @@
+name: wonderland
+recipe: laravel
+config:
+  php: '7.2'
+  via: nginx
+  webroot: public
+  xdebug: true
+  config:
+      php: .lando/php.ini
+services:
+  appserver:
+    build_as_root:
+      - chmod +x /app/.lando/build.sh
+      - ./.lando/build.sh
+    xdebug: true
+    composer:
+      phpunit/phpunit: "*"
+    overrides:
+      environment:
+        PHP_IDE_CONFIG: "serverName=wonderland"
+  #    js-build:
+  #        type: node:10
+  #        port: 8080
+  #        globals:
+  #            yarn: latest
+  database:
+    type: mysql:8.0
+    creds:
+      user: lando
+      password: lando
+      database: wonderland
+    portforward: 3399
+    config:
+      database: .lando/my_custom.cnf
+  redis:
+    type: redis
+tooling:
+excludes:
+    - vendor
+    - node_modules
+    - .git
+    - .lando
